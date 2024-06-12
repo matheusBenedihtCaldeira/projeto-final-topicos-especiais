@@ -16,5 +16,5 @@ app.listen(port, () => {
 
 //Rotas
 app.get('/', (req, res) => {
-    res.send('Ta rodando')
+    res.render('home')
 })
