@@ -26,7 +26,7 @@
           </div>
           <div class="mt-5">
             <form
-              action="../controllers/user/RegisterUserController.php"
+              action="/doctor"
               method="POST"
             >
               <div class="row">
@@ -41,11 +41,11 @@
               </div>
               <div class="row">
                 <div class="col-md-5 mb-3">
-                  <label for="cpf" class="form-label">CRM</label>
+                  <label for="crm" class="form-label">CRM</label>
                   <input
                     type="text"
                     class="form-control"
-                    name="cpf"
+                    name="crm"
                     placeholder="CRM/PR 000000"
                   />
                 </div>
@@ -61,11 +61,12 @@
               </div>
               <div class="row">
                 <div class="col-md-5 mb-3">
-                  <label for="email" class="form-label">Password</label>
+                  <label for="password" class="form-label">Password</label>
                   <input
                     type="password"
                     class="form-control"
                     placeholder="••••••••••"
+                    name="password"
                   />
                 </div>
               </div>

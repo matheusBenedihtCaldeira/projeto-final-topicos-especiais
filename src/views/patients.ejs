@@ -26,7 +26,7 @@
           </div>
           <div class="mt-5">
             <form
-              action="../controllers/user/RegisterUserController.php"
+              action="/patient"
               method="POST"
             >
               <div class="row">
@@ -46,9 +46,19 @@
                     type="text"
                     class="form-control"
                     name="cpf"
-                    placeholder=""
+                    placeholder="000.000.000-00"
                   />
                 </div>
+                <div class="col-md-5 mb-3">
+                  <label for="email" class="form-label">Gender</label>
+                  <select name="gender" class="form-control">
+                    <option value="M">Masculine</option>
+                    <option value="F">Feminine</option>
+                    <option value="Selecione um genero" selected>Select</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-md-5 mb-3">
                   <label for="date_of_birth" class="form-label"
                     >Data de Nascimento</label
@@ -59,19 +69,9 @@
                     name="date_of_birth"
                   />
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-md-5 mb-3">
-                  <label for="email" class="form-label">Gender</label>
-                  <select name="gender" class="form-control">
-                    <option value="M">Masculine</option>
-                    <option value="F">Feminine</option>
-                    <option value="" selected>Select</option>
-                  </select>
-                </div>
-                <div class="col-md-5 mb-3">
-                  <label for="email" class="form-label">Contato</label>
-                  <input type="text" class="form-control" />
+                  <label for="cellphone" class="form-label">Contato</label>
+                  <input name="cellphone" type="text" class="form-control" placeholder="(dd) 9999-9999" />
                 </div>
               </div>
               <div class="row">
