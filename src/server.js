@@ -21,12 +21,27 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/patients", (req, res) => {
-  res.render("patients");
+app.get('/doctors', (req, res) => {
+  res.render('doctors')  
+})
+
+app.get('/patients', (req, res) => {
+  connection.query('SELECT * FROM tb_patients;', (err, results, fields) => {
+    if(err){
+      console.log("Erro na consulta: " + err)
+      res.status(500)
+      return;
+    }
+    res.status(200).render('patients', {obj_patients: results})
+  })
+})
+
+app.get("/registerPatients", (req, res) => {
+  res.render("registerPatient");
 });
 
-app.get("/doctor", (req, res) => {
-  res.render("doctor");
+app.get("/registerDoctors", (req, res) => {
+  res.render("registerDoctor");
 });
 
 app.get("/agendamento", (req, res) => {
