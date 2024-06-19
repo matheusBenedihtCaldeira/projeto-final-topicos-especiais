@@ -3,7 +3,8 @@ const mysql = require('mysql');
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: '62312898',
+    //TROCAR SENHA
+    password: '',
     database: 'db_projeto_dalva'
 });
 
