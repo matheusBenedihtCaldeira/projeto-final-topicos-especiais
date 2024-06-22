@@ -187,9 +187,26 @@ app.post('/appointment', (req, res) => {
   });
 });
 
-app.get('/agendamentos', (req, res) => {
-  res.render('agendamentos');
-})
+app.get("/agendamentos", (req, res) => {
+  // Consulta SQL para buscar os dados de agendamentos com dados de doutores e pacientes
+  const query = `
+    SELECT a.id, a.appointment_date, a.appointment_time,
+           p.id as patient_id, p.first_name as patient_first_name, p.last_name as patient_last_name,
+           d.id as doctor_id, d.first_name as doctor_name
+    FROM tb_appointments a
+    INNER JOIN tb_patients p ON a.patient_id = p.id
+    INNER JOIN tb_doctors d ON a.doctor_id = d.id
+  `;
+  connection.query(query, (err, appointments) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Erro ao buscar agendamentos!");
+      return;
+    }
+    // Renderiza a página 'agendamento.ejs' e passa os dados dos agendamentos
+    res.render("agendamentos", { obj_appointments: appointments });
+  });
+});
 
 app.get('/diagnostico', (req, res) => {
   res.render('diagnostico')

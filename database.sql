@@ -33,3 +33,10 @@ CREATE TABLE tb_appointments(
     FOREIGN KEY (patient_id) REFERENCES tb_patients(id) ON DELETE CASCADE
 );
 
+SELECT a.id, p.first_name as patient_first_name, p.last_name as patient_last_name,
+           d.first_name as doctor_name,  d.last_name as doctor_last_name, a.appointment_date, a.appointment_time
+    FROM tb_appointments a
+    INNER JOIN tb_patients p ON a.patient_id = p.id
+    INNER JOIN tb_doctors d ON a.doctor_id = d.id;
+
+    
