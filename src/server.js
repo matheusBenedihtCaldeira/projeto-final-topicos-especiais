@@ -17,12 +17,10 @@ app.listen(port, () => {
 });
 
 
+app.get('/', (req, res) => {
+  res.render('home')
+})
 
-//Rotas
-//Rota principal da home
-app.get("/", (req, res) => {
-  res.render("home");
-});
 
 //Rota para a pagina de doutores cadastrados no sistema
 app.get('/doctors', (req, res) => {
@@ -108,7 +106,7 @@ app.post('/patient', (req, res) => {
     }
     console.log("Paciente cadastrado com sucesso!");
   })
-  res.send('OK')
+  res.render('home')
 })
 
 // Rota de POST para inserir agendamento no banco de dados
@@ -145,31 +143,10 @@ app.post('/appointment', (req, res) => {
   });
 });
 
-app.delete('/doctor', (req, res) => {
-  const { id } = req.body;
-  // verifica se o crm foi fornecido
-  if (!id) {
-    res.status(400).send("ID é obrigatório para excluir um doutor!");
-    return;
-  }
-  const query = connection.query('DELETE FROM tb_doctors WHERE id = ?', [crm], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Erro ao realizar delete!");
-      return;
-    }
-
-    // verifica se crm existe
-    if (result.affectedRows === 0) {
-      res.status(404).send("Doutor não encontrado!");
-      return;
-    }
-
-    console.log("Doutor removido com sucesso!");
-    res.send("Doutor removido com sucesso!");
-  });
-});
-
+app.get('/deletar/:id', (req, res) => {
+  const id_paciente = req.params.id;
+  res.send(id_paciente);
+})
 
 // Rota de POST para inserir agendamento no banco de dados
 // Rota de POST para inserir agendamento no banco de dados
@@ -212,4 +189,33 @@ app.post('/appointment', (req, res) => {
 
 app.get('/agendamentos', (req, res) => {
   res.render('agendamentos');
+})
+
+app.get('/diagnostico', (req, res) => {
+  res.render('diagnostico')
+})
+
+app.delete('/deletar/paciente/:id', (req, res) => {
+  const id = req.params.id;
+  // verifica se o crm foi fornecido
+  if (!id) {
+    res.status(400).send("ID é obrigatório para excluir um doutor!");
+    return;
+  }
+  const query = connection.query('DELETE FROM tb_patients WHERE id = ?', [id], (err, result) => {
+    if (err) {
+      console.log(err);
+      res.status(500).send("Erro ao realizar delete!");
+      return;
+    }
+
+    // verifica se crm existe
+    if (result.affectedRows === 0) {
+      res.status(404).send("Doutor não encontrado!");
+      return;
+    }
+
+    console.log("Paciente removido com sucesso!");
+    res.render('home')
+  });
 })

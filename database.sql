@@ -32,3 +32,4 @@ CREATE TABLE tb_appointments(
     FOREIGN KEY (doctor_id) REFERENCES tb_doctors(id) ON DELETE CASCADE,
     FOREIGN KEY (patient_id) REFERENCES tb_patients(id) ON DELETE CASCADE
 );
+
