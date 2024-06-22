@@ -25,48 +25,40 @@
             <h2>Agendamento consulta</h2>
           </div>
           <div class="mt-5">
-            <form
-              action="../controllers/user/RegisterUserController.php"
-              method="POST"
-            >
+            <form action="/appointment" method="POST">
               <div class="row">
                 <div class="col-md-5 mb-3">
-                  <label for="email" class="form-label">Doutor</label>
-                  <select name="gender" class="form-control">
-                    <option value="M">Matheus</option>
-                    <option value="F">Sei la</option>
+                  <label for="doctor_id" class="form-label">Doutor</label>
+                  <select name="doctor_id" class="form-control">
                     <option value="" selected>Select</option>
+                    <% obj_doctors.forEach(function(doctor) { %>
+                      <option value="<%= doctor.id %>"><%= doctor.first_name %> <%= doctor.last_name %></option>
+                    <% }); %>
                   </select>
                 </div>
                 <div class="col-md-5 mb-3">
-                  <label for="email" class="form-label">Paciente</label>
-                  <select name="gender" class="form-control">
-                    <option value="M">Cleusinha</option>
-                    <option value="F">Dalva</option>
+                  <label for="patient_id" class="form-label">Paciente</label>
+                  <select name="patient_id" class="form-control">
                     <option value="" selected>Select</option>
+                    <% obj_patients.forEach(function(patient) { %>
+                      <option value="<%= patient.id %>"><%= patient.first_name %> <%= patient.last_name %></option>
+                    <% }); %>
                   </select>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-5 mb-3">
-                  <label for="date_of_birth" class="form-label"
-                    >Data de Nascimento</label
-                  >
-                  <input
-                    type="date"
-                    class="form-control"
-                    name="date_of_birth"
-                  />
+                  <label for="appointment_date" class="form-label">Data da Consulta</label>
+                  <input type="date" class="form-control" name="appointment_date" />
+                </div>
+                <div class="col-md-5 mb-3">
+                  <label for="appointment_time" class="form-label">Horário da Consulta</label>
+                  <input type="time" class="form-control" name="appointment_time" />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-10 mb-3">
-                  <input
-                    name="register"
-                    class="btn btn-primary"
-                    type="submit"
-                    value="Cadastrar"
-                  />
+                  <input name="register" class="btn btn-primary" type="submit" value="Cadastrar" />
                 </div>
               </div>
             </form>

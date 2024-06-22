@@ -21,31 +21,27 @@
     <%- include('partials/navbar') %>
     <div class="container mt-4">
       <div class="mb-3">
-        <h2 class="h4 pb-2 border-bottom">Pacientes</h2>
+        <h2 class="h4 pb-2 border-bottom">Agendamentos</h2>
       </div>
       <div class="mb-3">
-        <a href="/registerDoctors" class="btn btn-primary rounded-pill shadow-sm">
-          Registrar Doutor
+        <a href="/agendamento" class="btn btn-primary rounded-pill shadow-sm">
+          Agendar consulta
         </a>
       </div>
       <div class="mb-3">
         <ul class="list-group">
-          <% 
-            obj_doctors.forEach(doctor => { %>
               <li class="list-group-item d-flex justify-content-between align-items-start mb-2 shadow-sm bg-light rounded">
                 <div class="flex-grow-1 cursor-pointer">
-                  <h5 class="mb-1"><%= doctor.first_name %> <%= doctor.last_name %></h5>
-                  <p class="mb-1">ID: <span class="text-secondary"><%= doctor.id %></span></p>
-                  <p class="mb-1">CRM: <span class="text-secondary"><%= doctor.crm %></span></p>
-                  <p class="mb-1">E-mail: <span class="text-secondary"><%= doctor.email %></span></p>
+                <h5 class="mb-1">Paciente: Carlinhos</h5>
+                  <p class="mb-1">Doutor: <span class="text-secondary">Carlos Alberto</span></p>
+                  <p class="mb-1">Data: <span class="text-secondary">12/06/2024</span></p>
+                  <p class="mb-1">Horario: <span class="text-secondary">14:43</span></p>
                 </div>
                 <div class="d-flex align-items-center">
                   <button class="btn btn-link p-0"><i class="bi bi-pencil-square" style="font-size: 1.5rem"></i></button>
                   <button class="btn btn-link p-0 text-danger"><i class="bi bi-trash" style="font-size: 1.5rem"></i></button>
                 </div>
               </li>
-          <% })%>
-          %>
         </ul>
       </div>
     </div>

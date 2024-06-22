@@ -4,7 +4,7 @@ const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     //TROCAR SENHA
-    password: '',
+    password: '62312898',
     database: 'db_projeto_dalva'
 });
 
