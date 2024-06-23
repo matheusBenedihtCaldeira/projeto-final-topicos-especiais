@@ -7,6 +7,7 @@ const path = require("path");
 const connection = require('./config/db');
 
 const patientRoutes = require('./routes/patientRoutes.js')
+const doctorRoutes = require('./routes/doctorRoutes.js')
 
 //Configurações do servidor
 app.set("views", path.resolve(__dirname, "views"));
@@ -29,18 +30,10 @@ app.get("/registerPatients", (req, res) => {
   res.render("registerPatient");
 });
 
-//Rota de doctors
 //Rotas relacionadas aos doutores
-app.get('/doctors', (req, res) => {
-  connection.query('SELECT * FROM tb_doctors;', (err, results, fields) => {
-    if(err){
-      console.log("Erro na consulta: " + err)
-      res.status(500)
-      return;
-    }
-    res.status(200).render('doctors', {obj_doctors: results})
-  })
-})
+app.use('/doctors', doctorRoutes);
+
+
 
 // Rota para o formulario de agendamento de consultas
 app.get("/agendamento", (req, res) => {

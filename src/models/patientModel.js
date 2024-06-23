@@ -1,9 +1,8 @@
-const { call } = require('body-parser');
 const connection = require('../config/db');
 
-const getAllPatients = (result) => {
+const getAllPatients = (callback) => {
     const query = 'SELECT * FROM tb_patients';
-    connection.query(query, result);
+    connection.query(query, callback);
 }
 
 const registerPatient = (patient, result) => {
