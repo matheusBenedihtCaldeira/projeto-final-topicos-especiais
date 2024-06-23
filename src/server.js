@@ -6,6 +6,8 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const connection = require('./config/db');
 
+const patientRoutes = require('./routes/patientRoutes.js')
+
 //Configurações do servidor
 app.set("views", path.resolve(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -17,12 +19,18 @@ app.listen(port, () => {
 });
 
 
+//Rotas do projeto
+//Rotas relacionada aos pacientes
+app.use('/patients', patientRoutes);
 app.get('/', (req, res) => {
   res.render('home')
-})
+});
+app.get("/registerPatients", (req, res) => {
+  res.render("registerPatient");
+});
 
-
-//Rota para a pagina de doutores cadastrados no sistema
+//Rota de doctors
+//Rotas relacionadas aos doutores
 app.get('/doctors', (req, res) => {
   connection.query('SELECT * FROM tb_doctors;', (err, results, fields) => {
     if(err){
@@ -31,18 +39,6 @@ app.get('/doctors', (req, res) => {
       return;
     }
     res.status(200).render('doctors', {obj_doctors: results})
-  })
-})
-
-//Rota para pagina de pacientes cadastrados no sistema
-app.get('/patients', (req, res) => {
-  connection.query('SELECT * FROM tb_patients;', (err, results, fields) => {
-    if(err){
-      console.log("Erro na consulta: " + err)
-      res.status(500)
-      return;
-    }
-    res.status(200).render('patients', {obj_patients: results})
   })
 })
 
@@ -67,10 +63,7 @@ app.get("/agendamento", (req, res) => {
   });
 });
 
-//Rota para o formulario de cadastro dos clientes
-app.get("/registerPatients", (req, res) => {
-  res.render("registerPatient");
-});
+
 
 //Rota para o formulario de cadastro dos doutores
 app.get("/registerDoctors", (req, res) => {
@@ -91,22 +84,6 @@ app.post('/doctor', (req, res) => {
     console.log("Doutor cadastrado com sucesso!");
   })
   res.send('OK')
-})
-
-//Rota de POST para inserir um paciente no banco de dados
-app.post('/patient', (req, res) => {
-  const {first_name, last_name, cpf, gender, date_of_birth, cellphone} = req.body;
-  console.log(`Data received: Nome: ${first_name} - Sobrenome: ${last_name} - CPF: ${cpf} - Genero: ${gender} - Data de nascimento: ${date_of_birth} - Telefone: ${cellphone} `);
-  const patient = {first_name, last_name, cpf, gender, date_of_birth, cellphone};
-  const query = connection.query('INSERT INTO tb_patients SET ?', patient, (err, result) => {
-    if(err){
-      console.log(err);
-      res.status(500).send("Erro ao realizar insert!")
-      return;
-    }
-    console.log("Paciente cadastrado com sucesso!");
-  })
-  res.render('home')
 })
 
 // Rota de POST para inserir agendamento no banco de dados
