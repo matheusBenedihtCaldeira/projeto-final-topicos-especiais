@@ -21,18 +21,21 @@ app.listen(port, () => {
 
 
 //Rotas do projeto
-//Rotas relacionada aos pacientes
-app.use('/patients', patientRoutes);
 app.get('/', (req, res) => {
   res.render('home')
 });
+//Rotas relacionada aos pacientes
+app.use('/patients', patientRoutes);
 app.get("/registerPatients", (req, res) => {
   res.render("registerPatient");
 });
 
 //Rotas relacionadas aos doutores
 app.use('/doctors', doctorRoutes);
-
+//Rota para o formulario de cadastro dos doutores
+app.get("/registerDoctors", (req, res) => {
+  res.render("registerDoctor");
+});
 
 
 // Rota para o formulario de agendamento de consultas
@@ -57,69 +60,6 @@ app.get("/agendamento", (req, res) => {
 });
 
 
-
-//Rota para o formulario de cadastro dos doutores
-app.get("/registerDoctors", (req, res) => {
-  res.render("registerDoctor");
-});
-
-//Rota de POST para inserir um doutor no banco de dados
-app.post('/doctor', (req, res) => {
-  const {first_name, last_name, crm, email, password} = req.body;
-  console.log(`Data received: ${first_name} - ${last_name} - ${crm} - ${email} - ${password}`);
-  const doctor = {first_name, last_name, crm, email, password};
-  const query = connection.query('INSERT INTO tb_doctors SET ?', doctor, (err, result) => {
-    if(err){
-      console.log(err);
-      res.status(500).send("Erro ao realizar insert!")
-      return;
-    }
-    console.log("Doutor cadastrado com sucesso!");
-  })
-  res.send('OK')
-})
-
-// Rota de POST para inserir agendamento no banco de dados
-app.post('/appointment', (req, res) => {
-  const {doctor_id, patient_id, appointment_date, appointment_time} = req.body;
-  console.log(`Data received: Id do doutor: ${doctor_id} - Id do paciente: ${patient_id} - Data da consulta: ${appointment_date} - Horario: ${appointment_time}`);
-
-  // Verificar se já existe um agendamento para o mesmo doutor na mesma data
-  const query = 'SELECT * FROM tb_appointments WHERE doctor_id = ? AND appointment_date = ?';
-  connection.query(query, [doctor_id, appointment_date], (err, results) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Erro ao verificar conflitos de agendamento!");
-      return;
-    }
-
-    if (results.length > 0) {
-      // Se existir um agendamento na mesma data e para o mesmo doutor
-      res.status(400).send("Já existe um agendamento para este doutor nesta data!");
-      return;
-    }
-
-    // Se não houver conflito, insere o novo agendamento
-    const appointment = {doctor_id, patient_id, appointment_date, appointment_time};
-    connection.query('INSERT INTO tb_appointments SET ?', appointment, (err, result) => {
-      if (err) {
-        console.log(err);
-        res.status(500).send("Erro ao realizar insert!");
-        return;
-      }
-      console.log("Consulta agendada com sucesso!");
-      res.render('agendamentos');
-    });
-  });
-});
-
-app.get('/deletar/:id', (req, res) => {
-  const id_paciente = req.params.id;
-  res.send(id_paciente);
-})
-
-// Rota de POST para inserir agendamento no banco de dados
-// Rota de POST para inserir agendamento no banco de dados
 // Rota de POST para inserir agendamento no banco de dados
 app.post('/appointment', (req, res) => {
   const {doctor_id, patient_id, appointment_date, appointment_time} = req.body;
@@ -180,29 +120,4 @@ app.get("/agendamentos", (req, res) => {
 
 app.get('/diagnostico', (req, res) => {
   res.render('diagnostico')
-})
-
-app.delete('/deletar/paciente/:id', (req, res) => {
-  const id = req.params.id;
-  // verifica se o crm foi fornecido
-  if (!id) {
-    res.status(400).send("ID é obrigatório para excluir um doutor!");
-    return;
-  }
-  const query = connection.query('DELETE FROM tb_patients WHERE id = ?', [id], (err, result) => {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Erro ao realizar delete!");
-      return;
-    }
-
-    // verifica se crm existe
-    if (result.affectedRows === 0) {
-      res.status(404).send("Doutor não encontrado!");
-      return;
-    }
-
-    console.log("Paciente removido com sucesso!");
-    res.render('home')
-  });
 })

@@ -4,6 +4,6 @@ const patientController = require('../controllers/patientController.js');
 
 route.get('/', patientController.index);
 route.post('/register', patientController.register);
-route.delete('/delete/patient/:id', patientController.deletePatientById);
+route.delete('/delete/:id', patientController.deletePatientById);
 
 module.exports = route;

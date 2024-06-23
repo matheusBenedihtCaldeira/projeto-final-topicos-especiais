@@ -19,7 +19,7 @@
 
     <script>
       function deletePatient(id){
-        fetch(`/deletar/paciente/${id}`, {
+        fetch(`/patients/delete/${id}`, {
           method: 'DELETE'
         }).then(response => {
           if(response.ok){

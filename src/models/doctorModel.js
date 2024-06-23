@@ -10,6 +10,13 @@ const registerDoctor = (doctor, callback) => {
     connection.query(query, doctor, callback)
 }
 
+const deleteDoctorById = (id, callback) => {
+    const query = 'DELETE FROM tb_doctors WHERE id = ?';
+    connection.query(query, [id], callback);
+}
+
 module.exports = {
     getAllDoctors,
+    registerDoctor,
+    deleteDoctorById
 }
