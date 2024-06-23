@@ -25,18 +25,25 @@
             <h2>Cadastro de doutor</h2>
           </div>
           <div class="mt-5">
-            <form
-              action="/doctors/register"
-              method="POST"
-            >
+            <form action="/doctors/register" method="POST">
               <div class="row">
                 <div class="col-md-5 mb-3">
                   <label for="first_name" class="form-label">Nome</label>
-                  <input type="text" name="first_name" class="form-control" />
+                  <input
+                    type="text"
+                    name="first_name"
+                    class="form-control"
+                    required
+                  />
                 </div>
                 <div class="col-md-5 mb-3">
                   <label for="last_name" class="form-label">Sobrenome</label>
-                  <input type="text" name="last_name" class="form-control" />
+                  <input
+                    type="text"
+                    name="last_name"
+                    class="form-control"
+                    required
+                  />
                 </div>
               </div>
               <div class="row">
@@ -47,6 +54,7 @@
                     class="form-control"
                     name="crm"
                     placeholder="CRM/PR 000000"
+                    required
                   />
                 </div>
                 <div class="col-md-5 mb-3">
@@ -56,17 +64,18 @@
                     class="form-control"
                     name="email"
                     placeholder="example@email.com"
+                    required
                   />
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-5 mb-3">
-                  <label for="password" class="form-label">Password</label>
+                  <label for="cellphone" class="form-label">Telefone</label>
                   <input
-                    type="password"
+                    type="text"
                     class="form-control"
-                    placeholder="••••••••••"
-                    name="password"
+                    placeholder="(ddd) 9999-9999"
+                    name="cellphone"
                   />
                 </div>
               </div>

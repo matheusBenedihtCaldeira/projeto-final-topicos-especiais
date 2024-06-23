@@ -26,6 +26,9 @@ app.get('/', (req, res) => {
   res.render('home')
 });
 //Rotas relacionada aos pacientes
+app.get('/patient', (req, res) => {
+  res.render('patient')
+})
 app.use('/patients', patientRoutes);
 app.get("/register/patient", (req, res) => {
   res.render("registerPatient");
@@ -63,3 +66,19 @@ app.get("/agendamento", (req, res) => {
 app.get('/diagnostico', (req, res) => {
   res.render('diagnostico')
 })
+
+
+app.get('/patients/edit/:id', (req, res) => {
+  const patientId = req.params.id;
+  
+  const patient = getPatientById(patientId); // Sua função para buscar o paciente
+  res.render('editPatient', { patient });
+});
+
+app.put('/patients/edit/:id', (req, res) => {
+  const patientId = req.params.id;
+  const updatedData = req.body;
+  
+  updatePatient(patientId, updatedData);
+res.redirect('/patients'); // Redireciona para a lista de pacientes após a edição
+});

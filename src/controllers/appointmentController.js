@@ -27,7 +27,7 @@ const register = async (req, res) => {
                 res.status(400).send("Já existe um agendamento para este doutor nesta data e hora!");
                 return;
             }
-            const appointment = { doctor_id, patient_id, appointment_date: appointmentDateTime };
+            const appointment = { doctor_id, patient_id, appointment_date: appointmentDateTime, appointment_time};
             model.registerAppointment(appointment, (err, result) => {
                 if (err) {
                     console.error(err);
@@ -44,7 +44,43 @@ const register = async (req, res) => {
     }
 };
 
+const deleteAppointmentById = async (req, res) => {
+    const id = req.params.id;
+    try{
+        await model.deleteAppointmentById(id);
+        res.status(200).render('home');
+        return;
+    }catch(err){
+        console.log(err);
+        res.status(500).send(`Error: ${err}`);
+        return;
+    }
+}
+
+
+const findAppointmentById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await model.getAppointmentById(id, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            if (result.length === 0) {
+                res.status(404).send("Agendamento não encontrado");
+                return;
+            }
+            res.status(200).render('appointment', { appointment: result[0] });
+            return
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error: ${err}`);
+    }
+};
+
 module.exports = {
     index,
-    register
+    register,
+    deleteAppointmentById, 
+    findAppointmentById   
 }

@@ -12,8 +12,8 @@ const index = (req, res) =>{
 }
 
 const register = async(req, res) => {
-    const {first_name, last_name, crm, email, password} = req.body;
-    const doctor = {first_name, last_name, crm, email, password};
+    const {first_name, last_name, crm, email, cellphone} = req.body;
+    const doctor = {first_name, last_name, crm, email, cellphone};
     try{
         await model.registerDoctor(doctor);
         res.status(200).render('home');
@@ -38,8 +38,66 @@ const deleteDoctorById = async(req, res) => {
     }
 }
 
+const findDoctorById = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await model.getDoctorById(id, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            if (result.length === 0) {
+                res.status(404).send("Doutor não encontrado");
+                return;
+            }
+            res.status(200).render('doctor', { doctor: result[0] });
+            return
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(`Error: ${err}`);
+    }
+};
+
+const editForm = async(req, res) => {
+    try{
+        const id = req.params.id;
+        await model.getDoctorById(id, (err, result) => {
+            if (err) {
+                throw err;
+            }
+            if (result.length === 0) {
+                res.status(404).send("Não encontrado");
+                return;
+            }
+            res.status(200).render('editDoctor', { doctor: result[0] });
+            return
+        })
+    }catch(err){
+        console.log(err)
+        res.status(500).send(`Error: ${err}`)
+        return;
+    }
+}
+
+const update = async(req, res) => {
+    const {first_name, last_name, crm, email, cellphone} = req.body;
+    const doctor = {first_name, last_name, crm, email, cellphone};
+    try{
+        await model.updateDoctorById(req.params.id, doctor);
+        res.status(200).render('home');
+        return;
+    }catch(err){
+        console.log(err);
+        res.status(500).send(`Error: ${err}`);
+        return;
+    }
+}
+
 module.exports = {
     index,
     register,
-    deleteDoctorById
+    findDoctorById,
+    deleteDoctorById,
+    update,
+    editForm,
 }

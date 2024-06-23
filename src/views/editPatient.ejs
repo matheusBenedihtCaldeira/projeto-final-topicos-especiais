@@ -25,25 +25,18 @@
             <h2>Cadastro de paciente</h2>
           </div>
           <div class="mt-5">
-            <form action="/patients/register" method="POST">
+            <form
+              action="/patients/edit/<%= patient.id %>"
+              method="POST"
+            >
               <div class="row">
                 <div class="col-md-5 mb-3">
                   <label for="first_name" class="form-label">Nome</label>
-                  <input
-                    type="text"
-                    name="first_name"
-                    class="form-control"
-                    required
-                  />
+                  <input type="text" name="first_name" class="form-control" value="<%= patient.first_name %>"/>
                 </div>
                 <div class="col-md-5 mb-3">
                   <label for="last_name" class="form-label">Sobrenome</label>
-                  <input
-                    type="text"
-                    name="last_name"
-                    class="form-control"
-                    required
-                  />
+                  <input type="text" name="last_name" class="form-control" value="<%= patient.last_name %>"/>
                 </div>
               </div>
               <div class="row">
@@ -54,16 +47,15 @@
                     class="form-control"
                     name="cpf"
                     placeholder="000.000.000-00"
-                    required
+                    value="<%= patient.cpf %>"
                   />
                 </div>
                 <div class="col-md-5 mb-3">
-                  <label for="email" class="form-label">Gender</label>
-                  <select name="gender" class="form-control">
-                    <option value="M">Masculine</option>
-                    <option value="F">Feminine</option>
-                    <option value="Selecione um genero" selected>Select</option>
-                  </select>
+                    <label for="gender" class="form-label">Gênero</label>
+                    <select class="form-control" id="gender" name="gender" required>
+                      <option value="Male" <%= patient.gender === 'Male' ? 'selected' : '' %>>Masculino</option>
+                      <option value="Female" <%= patient.gender === 'Female' ? 'selected' : '' %>>Feminino</option>
+                    </select>
                 </div>
               </div>
               <div class="row">
@@ -75,18 +67,12 @@
                     type="date"
                     class="form-control"
                     name="date_of_birth"
-                    required
+                    value="<%= patient.date_of_birth %>"
                   />
                 </div>
                 <div class="col-md-5 mb-3">
-                  <label for="cellphone" class="form-label">Telefone</label>
-                  <input
-                    name="cellphone"
-                    type="text"
-                    class="form-control"
-                    placeholder="(ddd) 9999-9999"
-                    required
-                  />
+                  <label for="cellphone" class="form-label">Contato</label>
+                  <input name="cellphone" type="text" class="form-control" value="<%= patient.cellphone %>"/>
                 </div>
               </div>
               <div class="row">
@@ -96,7 +82,6 @@
                     class="btn btn-primary"
                     type="submit"
                     value="Cadastrar"
-                    required
                   />
                 </div>
               </div>
