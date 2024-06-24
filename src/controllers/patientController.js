@@ -1,19 +1,19 @@
 const model = require("../models/patientModel.js");
 
-const index = (req, res) => {
-  model.getAllPatients((err, results) => {
-    if (err) {
+const index = async (req, res) => {
+  await model.getAllPatients((err, results) => {
+    if(err) {
       console.error("Erro na consulta:", err);
       res.status(500).send("Erro ao buscar pacientes");
       return;
     }
     res.status(200).render("patients", { obj_patients: results });
   });
-};
+}; 
 
 const register = async (req, res) => {
-  const { first_name, last_name, cpf, gender, date_of_birth, cellphone } =
-    req.body;
+  //Recupera os dados enviados a partir do formulario
+  const { first_name, last_name, cpf, gender, date_of_birth, cellphone } = req.body;
   const patient = {
     first_name,
     last_name,
@@ -24,7 +24,7 @@ const register = async (req, res) => {
   };
 
   try {
-    // Verificar se o paciente já existe pelo CPF
+    //Verificar se o paciente já existe pelo CPF
     await model.findPatientByCpf(cpf, async (error, existingPatient) => {
       if (error) {
         console.error("Erro ao buscar paciente:", error);
@@ -34,12 +34,9 @@ const register = async (req, res) => {
       }
 
       if (existingPatient) {
-        // Se o paciente já existe, renderizar a página de registro com a mensagem de erro
-        return res
-          .status(400)
-          .render("home", {
-            errorMessage: "Paciente já registrado com esse CPF",
-          });
+        return res.status(400).render("home", {
+          errorMessage: "Paciente já registrado com esse CPF",
+        });
       }
 
       // Se o paciente não existe, registrar o paciente
@@ -48,11 +45,9 @@ const register = async (req, res) => {
         return res.status(200).render("home");
       } catch (err) {
         console.error("Erro ao registrar paciente:", err);
-        return res
-          .status(500)
-          .render("register", {
-            errorMessage: `Erro ao registrar paciente: ${err.message}`,
-          });
+        return res.status(500).render("register", {
+          errorMessage: `Erro ao registrar paciente: ${err.message}`,
+        });
       }
     });
   } catch (err) {

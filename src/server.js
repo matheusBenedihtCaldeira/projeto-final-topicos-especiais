@@ -73,3 +73,7 @@ app.put('/patients/edit/:id', (req, res) => {
   updatePatient(patientId, updatedData);
 res.redirect('/patients'); // Redireciona para a lista de pacientes após a edição
 });
+
+app.get('/error', (req, res) => {
+  res.render('error');
+})
