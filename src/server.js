@@ -9,6 +9,8 @@ const connection = require('./config/db');
 const patientRoutes = require('./routes/patientRoutes.js')
 const doctorRoutes = require('./routes/doctorRoutes.js')
 const appointmentsRoutes = require('./routes/appointmentsRoutes.js')
+const diagnosisRoutes = require('./routes/diagnosisRoutes.js');
+const { getPatientById } = require("./models/patientModel.js");
 
 //Configurações do servidor
 app.set("views", path.resolve(__dirname, "views"));
@@ -19,7 +21,6 @@ app.use(express.static(path.resolve(__dirname, "..", "public")));
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
 });
-
 
 //Rotas do projeto
 app.get('/', (req, res) => {
@@ -43,6 +44,8 @@ app.get("/register/doctor", (req, res) => {
 //Rotas relacionadas aos agendamentos
 app.use('/appointments', appointmentsRoutes);
 
+app.use('/diagnosis', diagnosisRoutes)
+
 // Rota para o formulario de agendamento de consultas
 app.get("/agendamento", (req, res) => {
   // Buscar doutores e pacientes do banco de dados
@@ -63,22 +66,10 @@ app.get("/agendamento", (req, res) => {
     });
   });
 });
-app.get('/diagnostico', (req, res) => {
-  res.render('diagnostico')
-})
-
-
-app.get('/patients/edit/:id', (req, res) => {
-  const patientId = req.params.id;
-  
-  const patient = getPatientById(patientId); // Sua função para buscar o paciente
-  res.render('editPatient', { patient });
-});
 
 app.put('/patients/edit/:id', (req, res) => {
   const patientId = req.params.id;
   const updatedData = req.body;
-  
   updatePatient(patientId, updatedData);
 res.redirect('/patients'); // Redireciona para a lista de pacientes após a edição
 });

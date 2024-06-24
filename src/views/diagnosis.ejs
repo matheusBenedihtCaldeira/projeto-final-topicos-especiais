@@ -22,26 +22,24 @@
       <div class="row">
         <div class="col-md-12">
           <div class="mt-5">
-            <h2>Cadastro de paciente</h2>
+            <h2>Obter diagnostico</h2>
           </div>
           <div class="mt-5">
-            <form action="" method="POST">
+            <form action="/diagnosis/<%= patient.id %>" method="POST">
               <div class="row">
-       
                 </div>
-                <div class="col-md-5 mb-3">
+                <div class="col-md-10 mb-3">
                   <label for="gender" class="form-label">Sexo</label>
-                  <select name="gender" class="form-control">
-                    <option value="M">Masculino</option>
-                    <option value="F">Feminino</option>
-                    <option value="" selected>Selecione um gênero</option>
-                  </select>
+                    <select class="form-control" id="gender" name="gender" required>
+                      <option value="Male" <%= patient.gender === 'Male' ? 'selected' : '' %>>Masculino</option>
+                      <option value="Female" <%= patient.gender === 'Female' ? 'selected' : '' %>>Feminino</option>
+                    </select>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-5 mb-3">
                   <label for="age" class="form-label">Idade</label>
-                  <input type="number" class="form-control" name="age" />
+                  <input type="number" class="form-control" name="age" value="<%= new Date().getFullYear() - new Date(patient.date_of_birth).getFullYear() %>"/>
                 </div>
                 <div class="col-md-5 mb-3">
                   <label for="educ" class="form-label">Anos de Educação</label>
@@ -61,7 +59,7 @@
               <div class="row">
                 <div class="col-md-5 mb-3">
                   <label for="cdr" class="form-label">Classificação Clínica da Demência</label>
-                  <input type="number" class="form-control" name="cdr" />
+                  <input type="number" class="form-control" name="cdr" step="0.001"/>
                 </div>
                 <div class="col-md-5 mb-3">
                   <label for="etiv" class="form-label">Volume Intracraniano Total Estimado</label>
@@ -71,11 +69,11 @@
               <div class="row">
                 <div class="col-md-5 mb-3">
                   <label for="nwbv" class="form-label">Volume Total do Cérebro Normalizado</label>
-                  <input type="number" class="form-control" name="nwbv" />
+                  <input type="number" class="form-control" name="nwbv" step="0.001" />
                 </div>
                 <div class="col-md-5 mb-3">
                   <label for="asf" class="form-label">Fator de Escala do Atlas</label>
-                  <input type="number" class="form-control" name="asf" />
+                  <input type="number" class="form-control" name="asf" step="0.001" />
                 </div>
               </div>
               <div class="row">
