@@ -12,7 +12,7 @@ const index = async (req, res) => {
 }; 
 
 const register = async (req, res) => {
-  //Recupera os dados enviados a partir do formulario
+  // Recupera os dados enviados a partir do formulário
   const { first_name, last_name, cpf, gender, date_of_birth, cellphone } = req.body;
   const patient = {
     first_name,
@@ -22,41 +22,32 @@ const register = async (req, res) => {
     date_of_birth,
     cellphone,
   };
-
   try {
-    //Verificar se o paciente já existe pelo CPF
-    await model.findPatientByCpf(cpf, async (error, existingPatient) => {
-      if (error) {
-        console.error("Erro ao buscar paciente:", error);
-        return res
-          .status(500)
-          .render("home", { errorMessage: "Erro ao buscar paciente" });
-      }
+    // Verificar se o paciente já existe pelo CPF
+    const existingPatient = await model.findPatientByCpf(cpf);
+    if (existingPatient) {
+      console.log("Paciente já existe");
+      return res.status(400).render("home", { errorMessage: "Paciente já existe" });
+    }
 
-      if (existingPatient) {
-        return res.status(400).render("home", {
-          errorMessage: "Paciente já registrado com esse CPF",
-        });
-      }
-
-      // Se o paciente não existe, registrar o paciente
-      try {
-        await model.registerPatient(patient);
-        return res.status(200).render("home");
-      } catch (err) {
-        console.error("Erro ao registrar paciente:", err);
-        return res.status(500).render("register", {
-          errorMessage: `Erro ao registrar paciente: ${err.message}`,
-        });
-      }
-    });
+    // Se o paciente não existe, registrar o paciente
+    try {
+      await model.registerPatient(patient);
+      return res.status(200).render("home");
+    } catch (err) {
+      console.error("Erro ao registrar paciente:", err);
+      return res.status(500).render("register", {
+        errorMessage: `Erro ao registrar paciente: ${err.message}`,
+      });
+    }
   } catch (err) {
-    console.error("Erro ao processar registro:", err);
+    console.error("Erro ao buscar paciente:", err);
     return res
       .status(500)
-      .render("register", { errorMessage: "Erro ao processar registro" });
+      .render("register", { errorMessage: "Erro ao buscar paciente" });
   }
 };
+
 
 const deletePatientById = async (req, res) => {
   const id = req.params.id;

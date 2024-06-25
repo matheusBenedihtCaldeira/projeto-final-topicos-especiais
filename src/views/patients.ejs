@@ -67,7 +67,13 @@
                 </p>
                 <p class="mb-1">
                   Diagnostico:
-                  <span class="text-secondary"><%= patient.diagnosis %></span>
+                  <span class="text-secondary"><%= patient.diagnosis === 'Demented'
+                    ? "Paciente diagnosticado com Alzheimer"
+                    : patient.diagnosis === 'Nondemented'
+                    ? "Paciente não diagnosticado com Alzheimer"
+                    : patient.diagnosis === 'Converted'
+                    ? 'Patient converted'
+                    : null %>	</span>
                 </p>
               </a>
             </div>
